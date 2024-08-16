@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FD\LogViewer\Service\File\Monolog;
 
+use FD\LogViewer\Entity\Config\LogFilesConfig;
 use FD\LogViewer\Service\File\LogLineParserInterface;
 use JsonException;
 
@@ -19,11 +20,17 @@ class MonologLineParser implements LogLineParserInterface
         '(?P<context>[[{].*?[\]}])\s+' .
         '(?P<extra>[[{].*?[\]}])\s+$/s';
 
-    private readonly string $logLinePattern;
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    public function __construct(private readonly ?string $startOfMessagePattern, ?string $logLinePattern)
+    private readonly ?string $startOfMessagePattern;
+    private readonly string $logLinePattern;
+    private readonly string $dateFormat;
+
+    public function __construct(private readonly LogFilesConfig $config)
     {
-        $this->logLinePattern = $logLinePattern ?? self::LOG_LINE_PATTERN;
+        $this->startOfMessagePattern = $this->config->startOfLinePattern;
+        $this->logLinePattern = $this->config->logMessagePattern ?? self::LOG_LINE_PATTERN;
+        $this->dateFormat = $this->config->dateFormat ?? self::DATE_FORMAT;
     }
 
     /**
@@ -69,5 +76,10 @@ class MonologLineParser implements LogLineParserInterface
         } catch (JsonException) {
             return $data;
         }
+    }
+
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat;
     }
 }

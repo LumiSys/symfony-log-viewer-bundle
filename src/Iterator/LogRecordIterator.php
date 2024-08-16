@@ -33,7 +33,7 @@ class LogRecordIterator implements IteratorAggregate
 
             yield new LogRecord(
                 md5((string)json_encode($lineData)),
-                (int)strtotime($lineData['date']),
+                (int)\DateTime::createFromFormat($this->lineParser->getDateFormat(), $lineData['date'])->format('U'),
                 strtolower($lineData['severity']),
                 $lineData['channel'],
                 $lineData['message'],

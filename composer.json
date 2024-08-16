@@ -1,5 +1,5 @@
 {
-    "name": "fdekker/log-viewer-bundle",
+    "name": "lumisys/log-viewer-bundle",
     "description": "A log viewer bundle for Symfony 6 and up",
     "keywords": [
         "symfony",
@@ -7,7 +7,7 @@
         "logs",
         "log viewer"
     ],
-    "homepage": "https://github.com/frankdekker/symfony-log-viewer-bundle",
+    "homepage": "https://github.com/LumiSys/symfony-log-viewer-bundle",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -15,6 +15,11 @@
             "name": "Frank Dekker",
             "email": "fdekker@gmail.com",
             "role": "Developer"
+        },
+        {
+            "name": "Iván Maturicz",
+            "email": "info@lumisys.eu",
+            "role": "Maintainer"
         }
     ],
     "minimum-stability": "stable",

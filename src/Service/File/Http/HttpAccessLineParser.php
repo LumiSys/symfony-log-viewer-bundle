@@ -19,11 +19,15 @@ class HttpAccessLineParser implements LogLineParserInterface
         '"(?P<referrer>[^"]*)" ' .
         '"(?P<user_agent>[^"]*)"/';
 
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
     private readonly string $logLinePattern;
+    private readonly string $dateFormat;
 
     public function __construct(?string $logLinePattern)
     {
         $this->logLinePattern = $logLinePattern ?? self::LOG_LINE_PATTERN;
+        $this->dateFormat = $this->config->dateFormat ?? self::DATE_FORMAT;
     }
 
     /**
@@ -58,5 +62,10 @@ class HttpAccessLineParser implements LogLineParserInterface
             'context'  => $context,
             'extra'    => '',
         ];
+    }
+
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat;
     }
 }

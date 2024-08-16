@@ -16,11 +16,15 @@ class ApacheErrorLineParser implements LogLineParserInterface
         '(?<message>.*?)' .
         '(?:, referer: (?<referer>\S*?))?$/';
 
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
     private readonly string $logLinePattern;
+    private readonly string $dateFormat;
 
     public function __construct(?string $logLinePattern)
     {
         $this->logLinePattern = $logLinePattern ?? self::LOG_LINE_PATTERN;
+        $this->dateFormat = $this->config->dateFormat ?? self::DATE_FORMAT;
     }
 
     /**
@@ -55,5 +59,10 @@ class ApacheErrorLineParser implements LogLineParserInterface
             'context'  => $context,
             'extra'    => '',
         ];
+    }
+
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat;
     }
 }

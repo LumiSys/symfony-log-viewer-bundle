@@ -28,4 +28,6 @@ interface LogLineParserInterface
      * }|null Returns null if the line could not be parsed.
      */
     public function parse(string $message): ?array;
+
+    public function getDateFormat(): string;
 }

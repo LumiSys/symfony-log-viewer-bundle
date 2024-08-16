@@ -30,7 +30,7 @@ class MonologFileParser implements LogFileParserInterface
             self::TYPE_JSON => $this->logParser->parse(new SplFileInfo($file->path), new MonologJsonParser(), $logQuery),
             self::TYPE_LINE => $this->logParser->parse(
                 new SplFileInfo($file->path),
-                new MonologLineParser($config->startOfLinePattern, $config->logMessagePattern),
+                new MonologLineParser($config),
                 $logQuery
             ),
             default         => throw new InvalidArgumentException('Invalid format type: ' . $this->formatType),

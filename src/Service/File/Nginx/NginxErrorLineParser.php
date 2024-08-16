@@ -17,11 +17,15 @@ class NginxErrorLineParser implements LogLineParserInterface
         '(?:, upstream: "?(?P<upstream>.+?)"?)?' .
         '(?:, host: "?(?P<host>.+?)"?)?$/';
 
+    public const DATE_FORMAT = 'Y-m-d H:i:s';
+
     private readonly string $logLinePattern;
+    private readonly string $dateFormat;
 
     public function __construct(?string $logLinePattern)
     {
         $this->logLinePattern = $logLinePattern ?? self::LOG_LINE_PATTERN;
+        $this->dateFormat = $this->config->dateFormat ?? self::DATE_FORMAT;
     }
 
     /**
@@ -56,5 +60,10 @@ class NginxErrorLineParser implements LogLineParserInterface
             'context'  => $context,
             'extra'    => '',
         ];
+    }
+
+    public function getDateFormat(): string
+    {
+        return $this->dateFormat;
     }
 }
