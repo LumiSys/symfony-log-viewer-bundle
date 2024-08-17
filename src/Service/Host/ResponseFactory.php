@@ -21,8 +21,18 @@ class ResponseFactory
                 $outputStream = fopen('php://output', 'wb');
                 assert(is_resource($outputStream));
 
+                $chunked = in_array('chunked', $httpResponse->getHeaders(false)['transfer-encoding'] ?? []);
                 foreach ($httpClient->stream($httpResponse) as $chunk) {
-                    fwrite($outputStream, $chunk->getContent());
+                    $content = $chunk->getContent();
+                    if ($chunked) {
+                        $length = dechex(strlen($content));
+                        fwrite($outputStream, "{$length}\r\n{$content}\r\n");
+                    } else {
+                        fwrite($outputStream, $content);
+                    }
+                }
+                if ($chunked) {
+                    fwrite($outputStream, "0\r\n\r\n");
                 }
                 fclose($outputStream);
             },
