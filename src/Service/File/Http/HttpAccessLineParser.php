@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FD\LogViewer\Service\File\Http;
 
+use FD\LogViewer\Entity\Config\LogFilesConfig;
 use FD\LogViewer\Service\File\LogLineParserInterface;
 
 class HttpAccessLineParser implements LogLineParserInterface
@@ -19,14 +20,14 @@ class HttpAccessLineParser implements LogLineParserInterface
         '"(?P<referrer>[^"]*)" ' .
         '"(?P<user_agent>[^"]*)"/';
 
-    public const DATE_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'd/M/Y:H:i:s O';
 
     private readonly string $logLinePattern;
     private readonly string $dateFormat;
 
-    public function __construct(?string $logLinePattern)
+    public function __construct(private readonly LogFilesConfig $config)
     {
-        $this->logLinePattern = $logLinePattern ?? self::LOG_LINE_PATTERN;
+        $this->logLinePattern = $this->config->logMessagePattern ?? self::LOG_LINE_PATTERN;
         $this->dateFormat = $this->config->dateFormat ?? self::DATE_FORMAT;
     }
 

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FD\LogViewer\Service\File\Apache;
 
+use FD\LogViewer\Entity\Config\LogFilesConfig;
 use FD\LogViewer\Service\File\LogLineParserInterface;
 
 class ApacheErrorLineParser implements LogLineParserInterface
@@ -16,14 +17,14 @@ class ApacheErrorLineParser implements LogLineParserInterface
         '(?<message>.*?)' .
         '(?:, referer: (?<referer>\S*?))?$/';
 
-    public const DATE_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'D M d H:i:s.u Y';
 
     private readonly string $logLinePattern;
     private readonly string $dateFormat;
 
-    public function __construct(?string $logLinePattern)
+    public function __construct(private readonly LogFilesConfig $config)
     {
-        $this->logLinePattern = $logLinePattern ?? self::LOG_LINE_PATTERN;
+        $this->logLinePattern = $this->config->logMessagePattern ?? self::LOG_LINE_PATTERN;
         $this->dateFormat = $this->config->dateFormat ?? self::DATE_FORMAT;
     }
 
