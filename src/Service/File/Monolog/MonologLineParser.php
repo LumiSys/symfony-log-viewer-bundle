@@ -38,7 +38,7 @@ class MonologLineParser implements LogLineParserInterface
      */
     public function matches(string $line): int
     {
-        if ($this->startOfMessagePattern === null) {
+        if ($this->startOfMessagePattern === null || $this->startOfMessagePattern === '') {
             return self::MATCH_START;
         }
 
