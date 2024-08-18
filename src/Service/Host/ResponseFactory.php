@@ -37,7 +37,9 @@ class ResponseFactory
                 fclose($outputStream);
             },
             $httpResponse->getStatusCode(),
-            $httpResponse->getHeaders(false)
+            array_filter($httpResponse->getHeaders(false), function ($key) {
+                return $key !== 'set-cookie';
+            }, ARRAY_FILTER_USE_KEY)
         );
     }
 }
